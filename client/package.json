@@ -1,0 +1,17 @@
+{
+  "name": "ridethebus-client",
+  "version": "1.0.0",
+  "description": "Ride the Bus Discord Activity frontend",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@discord/embedded-app-sdk": "^1.9.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}

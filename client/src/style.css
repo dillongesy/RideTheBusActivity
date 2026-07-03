@@ -1,0 +1,231 @@
+:root {
+  /* Palette adapted from the reference game (dark slate surfaces, red brand). */
+  --surface: #22303f;
+  --surface-raised: #1a2531;
+  --surface-input: #374151;
+  --brand: #dc2626;
+  --brand-hover: #b91c1c;
+  --amber: #d97706;
+  --amber-hover: #b45309;
+  --text: rgba(255, 255, 255, 0.95);
+  --muted: #9aa7b4;
+  --gold-a: #ffffff;
+  --gold-b: #ffd700;
+  --gold-c: #d99200;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--surface);
+  color: var(--text);
+  font-family: 'gg sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app { height: 100%; overflow-y: auto; }
+
+.status {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 1.1rem;
+}
+
+.game {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+/* ---- Cards (3D flip from a golden back) ---- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  justify-items: center;
+  width: 100%;
+}
+
+.flip {
+  width: 100%;
+  max-width: 130px;
+  aspect-ratio: 226 / 314;
+  perspective: 1200px;
+}
+
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-inner.show-back { transform: rotateY(180deg); }
+
+.face, .back {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  backface-visibility: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+.face { background: #fff; }
+.face img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+/* Golden gradient card back, echoing the reference. */
+.back {
+  transform: rotateY(180deg);
+  background: linear-gradient(160deg, var(--gold-a) 0%, var(--gold-b) 45%, var(--gold-c) 100%);
+  border: 2px solid rgba(0, 0, 0, 0.15);
+}
+.back::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 6px;
+}
+
+.flip.current .flip-inner { outline: 3px solid var(--brand); outline-offset: 3px; border-radius: 12px; }
+.flip.loser { animation: shake 0.4s ease; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+/* ---- Controls ---- */
+.controls {
+  background: var(--surface-raised);
+  border-radius: 14px;
+  padding: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+.prompt { margin: 0 0 6px; font-size: 1.4rem; font-weight: 800; }
+.prompt.win { color: var(--gold-b); }
+.prompt.lose { color: var(--brand); }
+.sub { margin: 6px 0 0; color: var(--muted); }
+
+.actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.btn {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 22px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--brand);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+  transition: background 0.12s ease, transform 0.05s ease;
+}
+.btn:hover { background: var(--brand-hover); }
+.btn:active { transform: translateY(1px); }
+
+.btn.red { background: var(--brand); }
+.btn.red:hover { background: var(--brand-hover); }
+.btn.black { background: #000; }
+.btn.black:hover { background: #1f2937; }
+.btn.ghost { background: #fff; color: #000; }
+.btn.ghost:hover { background: #e5e7eb; }
+.btn.secondary { background: var(--amber); }
+.btn.secondary:hover { background: var(--amber-hover); }
+
+.drinkcount { margin: 0; font-size: 1.15rem; font-weight: 700; }
+
+/* ---- Roster ---- */
+.roster {
+  background: var(--surface-raised);
+  border-radius: 14px;
+  padding: 12px 18px;
+  width: 100%;
+}
+.roster h3 {
+  margin: 0 0 8px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--muted);
+}
+.roster ul { list-style: none; margin: 0; padding: 0; }
+.roster li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.roster li:last-child { border-bottom: none; }
+
+.pname { flex: 1; font-weight: 600; }
+.pname .you { color: var(--muted); font-weight: 400; font-size: 0.85rem; }
+
+.badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--muted);
+  white-space: nowrap;
+}
+.badge.driver { background: var(--brand); color: #fff; }
+.drinks { font-size: 0.9rem; color: var(--muted); }
+
+/* ---- Confetti ---- */
+.confetti-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 9999;
+}
+.confetti {
+  position: absolute;
+  top: -12px;
+  width: 9px;
+  height: 14px;
+  border-radius: 2px;
+  animation: fall linear forwards;
+}
+@keyframes fall {
+  0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(105vh) rotate(720deg); opacity: 0.9; }
+}
+
+/* Small screens (Discord activity can be narrow): shrink cards gracefully. */
+@media (max-width: 420px) {
+  .cards { gap: 8px; }
+  .prompt { font-size: 1.2rem; }
+  .btn { padding: 10px 16px; font-size: 0.95rem; }
+}
