@@ -17,7 +17,11 @@ async function main() {
     auth = await initAuth();
   } catch (err) {
     console.error(err);
-    setStatus('Failed to connect to Discord. Reload to try again.');
+    setStatus(
+      `<strong>Failed to connect to Discord.</strong><br><br>` +
+        `<code style="font-size:0.85rem;color:#f88;word-break:break-word">${(err && err.message) || err}</code>` +
+        `<br><br>Reload to try again.`
+    );
     return;
   }
 

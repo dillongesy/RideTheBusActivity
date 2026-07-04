@@ -43,15 +43,33 @@ async function discordAuth() {
     scope: ['identify', 'guilds'],
   });
 
+  // Exchange the code for an access token via our backend. Surface a precise
+  // error so setup problems (bad secret, proxy/routing) are visible on screen.
   const res = await fetch('/api/token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ code }),
   });
-  const { access_token } = await res.json();
+
+  const raw = await res.text();
+  if (!res.ok) {
+    throw new Error(`Token exchange failed (HTTP ${res.status}): ${raw.slice(0, 300)}`);
+  }
+
+  let access_token;
+  try {
+    ({ access_token } = JSON.parse(raw));
+  } catch {
+    // Non-JSON almost always means the request hit Discord's proxy / a wrong
+    // host instead of our /api/token route (check URL Mappings).
+    throw new Error(`/api/token did not return JSON — got: ${raw.slice(0, 200)}`);
+  }
+  if (!access_token) {
+    throw new Error(`No access_token in response: ${raw.slice(0, 200)}`);
+  }
 
   const auth = await discordSdk.commands.authenticate({ access_token });
-  if (!auth) throw new Error('Discord authenticate failed');
+  if (!auth) throw new Error('discordSdk authenticate() returned null');
 
   return {
     instanceId: discordSdk.instanceId,
