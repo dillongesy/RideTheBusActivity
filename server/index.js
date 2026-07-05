@@ -83,6 +83,9 @@ wss.on('connection', (ws) => {
       case 'guess':
         rooms.handleGuess(ws._roomId, ws._userId, msg.guess);
         break;
+      case 'cursor':
+        rooms.handleCursor(ws._roomId, ws._userId, msg.cursor);
+        break;
       case 'redraw':
         rooms.handleRedraw(ws._roomId, ws._userId);
         break;

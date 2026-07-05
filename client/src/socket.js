@@ -1,7 +1,7 @@
 // Thin WebSocket client with auto-reconnect. Sends a `join` on every (re)connect
 // and forwards server `state` snapshots to a subscriber.
 
-export function createSocket({ instanceId, user }, onState) {
+export function createSocket({ instanceId, user }, onState, onCursor) {
   let ws;
   let closedByUs = false;
   let backoff = 500;
@@ -37,6 +37,7 @@ export function createSocket({ instanceId, user }, onState) {
         return;
       }
       if (msg.type === 'state') onState(msg);
+      else if (msg.type === 'cursor' && onCursor) onCursor(msg.cursor);
     });
 
     ws.addEventListener('close', () => {
@@ -58,6 +59,7 @@ export function createSocket({ instanceId, user }, onState) {
 
   return {
     guess: (guess) => send({ type: 'guess', guess }),
+    cursor: (cursor) => send({ type: 'cursor', cursor }),
     redraw: () => send({ type: 'redraw' }),
     nominate: (targetId) => send({ type: 'nominate', targetId }),
     close: () => {

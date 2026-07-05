@@ -11,7 +11,7 @@ const {
   serializeCards,
 } = require('./game');
 
-/** @typedef {{ id: string, name: string, avatar: string|null, drinks: number, ws: import('ws').WebSocket }} Player */
+/** @typedef {{ id: string, name: string, avatar: string|null, drinks: number, bestDrinks: number|null, ws: import('ws').WebSocket }} Player */
 
 const rooms = new Map(); // instanceId -> room
 
@@ -35,6 +35,7 @@ function serialize(room) {
     name: p.name,
     avatar: p.avatar,
     drinks: p.drinks,
+    bestDrinks: p.bestDrinks, // least-drinks completed ride (null if never won)
     isActive: p.id === g.activePlayerId,
   }));
 
@@ -76,6 +77,7 @@ function join(instanceId, { userId, name, avatar }, ws) {
       name: name || 'Player',
       avatar: avatar || null,
       drinks: 0,
+      bestDrinks: null, // persists across turns; only improved on a win
       ws,
     });
   }
@@ -96,8 +98,31 @@ function join(instanceId, { userId, name, avatar }, ws) {
 function handleGuess(instanceId, userId, guess) {
   const room = rooms.get(instanceId);
   if (!room) return;
-  applyGuess(room.game, userId, guess);
+  const result = applyGuess(room.game, userId, guess);
+  if (result && result.won) {
+    // Completed a ride: record it as the player's best if it's their fewest drinks.
+    const p = room.players.get(userId);
+    if (p) p.bestDrinks = p.bestDrinks == null ? p.drinks : Math.min(p.bestDrinks, p.drinks);
+  }
   broadcast(room);
+}
+
+// Relay the driver's cursor position / hovered button to spectators only.
+// Kept off the full-state broadcast path since cursor moves are high-frequency.
+function handleCursor(instanceId, userId, cursor) {
+  const room = rooms.get(instanceId);
+  if (!room) return;
+  if (room.game.activePlayerId !== userId) return; // only the driver's cursor is shown
+  if (!cursor || typeof cursor.x !== 'number' || typeof cursor.y !== 'number') return;
+
+  const payload = JSON.stringify({
+    type: 'cursor',
+    cursor: { x: cursor.x, y: cursor.y, hover: cursor.hover ?? null },
+  });
+  for (const p of room.players.values()) {
+    if (p.id === userId) continue; // don't echo back to the driver
+    if (p.ws.readyState === p.ws.OPEN) p.ws.send(payload);
+  }
 }
 
 // "Redraw Cards" after a loss (same driver, +1 drink) or "Another Ride?" after a
@@ -158,6 +183,7 @@ function leave(ws) {
 module.exports = {
   join,
   handleGuess,
+  handleCursor,
   handleRedraw,
   handleNominate,
   leave,
