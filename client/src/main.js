@@ -1,7 +1,7 @@
 import './style.css';
 import { initAuth } from './discordSdk.js';
 import { createSocket } from './socket.js';
-import { render, updateCursor } from './game-ui.js';
+import { render, updateCursor, noteCursorSent } from './game-ui.js';
 
 const app = document.getElementById('app');
 
@@ -68,6 +68,7 @@ async function main() {
     lastSent = now;
     const hover = e.target.closest ? e.target.closest('.btn[data-guess]')?.dataset.guess ?? null : null;
     socket.cursor({ x, y, hover });
+    noteCursorSent(); // increments the tx counter in the corner diagnostic
   });
 }
 

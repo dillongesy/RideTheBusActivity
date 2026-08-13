@@ -43,6 +43,20 @@ let lastCursor = null; // { x, y, hover } from the driver, in normalized 0..1 co
 let currentState = null;
 let currentMe = null;
 
+// Live diagnostic: tx = cursor msgs this client SENT (as driver),
+// rx = cursor msgs RECEIVED (as spectator). Shown in the corner tag.
+const BUILD = 'cursor-v2';
+let txCount = 0;
+let rxCount = 0;
+function refreshBuildTag() {
+  const el = rootEl && rootEl.querySelector('.build-tag');
+  if (el) el.textContent = `${BUILD} · tx:${txCount} rx:${rxCount}`;
+}
+export function noteCursorSent() {
+  txCount += 1;
+  refreshBuildTag();
+}
+
 function driverOf(state) {
   return state.players.find((p) => p.isActive) || null;
 }
@@ -56,7 +70,8 @@ function buildSkeleton(root) {
       <section class="controls"></section>
       <p class="drinkcount"></p>
       <aside class="roster"><h3>Players</h3><ul></ul></aside>
-      <div class="driver-cursor" hidden><span class="dc-dot"></span><span class="dc-name"></span></div>
+      <div class="driver-cursor"><span class="dc-dot"></span><span class="dc-name"></span></div>
+      <div class="build-tag"></div>
     </div>`;
 
   const cardsEl = root.querySelector('.cards');
@@ -190,6 +205,8 @@ function updateRoster(root, state, me) {
 // -------- driver cursor overlay (spectator view) --------
 export function updateCursor(cursor) {
   lastCursor = cursor;
+  rxCount += 1;
+  refreshBuildTag();
   applyCursor();
 }
 
@@ -205,12 +222,12 @@ function applyCursor() {
   const showToMe =
     currentState.phase === 'playing' && currentMe !== currentState.activePlayerId && lastCursor;
   if (!showToMe) {
-    overlay.hidden = true;
+    overlay.classList.remove('show'); // class toggle — the `hidden` attr was overridden by CSS
     return;
   }
 
   const rect = game.getBoundingClientRect();
-  overlay.hidden = false;
+  overlay.classList.add('show');
   overlay.style.left = `${lastCursor.x * rect.width}px`;
   overlay.style.top = `${lastCursor.y * rect.height}px`;
   const driver = driverOf(currentState);
@@ -268,4 +285,5 @@ export function render(root, state, me, actions) {
   updateRoster(root, state, me);
   maybeConfetti(state);
   applyCursor(); // reapply hover highlight after controls were rebuilt
+  refreshBuildTag();
 }

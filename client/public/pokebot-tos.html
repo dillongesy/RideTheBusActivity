@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>pokeBot — Terms of Service</title>
+    <style>
+      :root { color-scheme: dark; }
+      body {
+        margin: 0;
+        background: #22303f;
+        color: rgba(255, 255, 255, 0.92);
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        line-height: 1.6;
+      }
+      main { max-width: 760px; margin: 0 auto; padding: 48px 20px 80px; }
+      h1 { font-size: 2rem; margin-bottom: 4px; }
+      h2 { font-size: 1.2rem; margin-top: 32px; color: #ffd700; }
+      .updated { color: #9aa7b4; font-size: 0.9rem; margin-top: 0; }
+      a { color: #60a5fa; }
+      code { background: #1a2531; padding: 2px 6px; border-radius: 4px; }
+      ul { padding-left: 20px; }
+      li { margin-bottom: 6px; }
+      .note { color: #9aa7b4; font-size: 0.92rem; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Terms of Service</h1>
+      <p class="updated">pokeBot (Discord bot) &middot; Last updated: August 12, 2026</p>
+
+      <p>
+        These terms cover pokeBot, a Pokémon-catching bot for Discord servers ("the bot"). By
+        using the bot, or by adding it to a server you manage, you're agreeing to what's below.
+        If you don't agree, don't use it, and remove it from your server.
+      </p>
+
+      <h2>1. What the bot is</h2>
+      <p>
+        pokeBot drops Pokémon into text channels. Type the name first and you catch it, which
+        earns coins, fills out a dex, completes quests, and unlocks items in the shop. It is
+        free, it is a hobby project maintained by one person in their spare time, and it comes
+        with no promises about uptime or how long it will keep running.
+      </p>
+      <p>
+        pokeBot is a fan project. It is not affiliated with, endorsed by, or sponsored by Discord
+        Inc., Nintendo, Game Freak, Creatures Inc., or The Pokémon Company. Pokémon and all
+        related names and artwork are the property of their respective owners and are used here
+        for a non-commercial fan game.
+      </p>
+
+      <h2>2. Who can use it</h2>
+      <p>
+        You need to be at least 13, or older where your country sets a higher minimum for
+        Discord, and you must be in good standing under
+        <a href="https://discord.com/terms" target="_blank" rel="noopener">Discord's Terms of Service</a>.
+        Discord's rules apply on top of these terms, and nothing here overrides them.
+      </p>
+
+      <h2>3. Adding the bot to a server</h2>
+      <p>
+        Whoever invites the bot is responsible for it being there. The bot needs permission to
+        view channels, send messages, read message history, embed links, and use external emojis
+        in order to work. It will stay quiet in channels where it lacks those permissions.
+      </p>
+      <p>
+        Admins can limit where it operates with <code>.setChannel</code>, review the current list
+        with <code>.viewChannels</code>, and clear the restriction with <code>.resetChannels</code>.
+        Those commands are restricted to server administrators. Kick the bot at any time and it
+        stops immediately; player collections are not deleted, because they belong to the player
+        rather than the server.
+      </p>
+
+      <h2>4. Playing fair</h2>
+      <p>Don't do any of the following:</p>
+      <ul>
+        <li>
+          Automate play. No self-bots, macros, autoclickers, keybind scripts, or other programs
+          that catch Pokémon or run commands on your behalf. Type it yourself.
+        </li>
+        <li>
+          Farm with alternate accounts, whether to inflate a leaderboard position or to funnel
+          Pokémon and currency to a main account.
+        </li>
+        <li>
+          Exploit bugs. If a duplication glitch, broken price, or anything else lets you generate
+          items or currency you shouldn't have, stop and report it instead of mining it. Report
+          it and I'll thank you for it.
+        </li>
+        <li>
+          Spam channels or deliberately flood commands to lag or crash the bot, and don't try to
+          reverse engineer, attack, or gain unauthorized access to the bot or the server it runs
+          on.
+        </li>
+        <li>
+          Harass other players through the bot, including with trade requests, or use it to
+          break Discord's rules or any applicable law.
+        </li>
+      </ul>
+
+      <h2>5. Coins, gold, and items</h2>
+      <p>
+        Coins, gold, items, buffs, and Pokémon exist only inside the bot. They are not property,
+        they carry no real-world value, and you don't own them in any legal sense. You have a
+        revocable license to use them while playing, and nothing more.
+      </p>
+      <p>
+        Selling, buying, or trading them for real money, cryptocurrency, gift cards, Nitro,
+        server perks, or anything else of value is not allowed. Accounts caught doing it can be
+        wiped or blocked. Nothing in the bot is sold for real money, so there is nothing to
+        refund.
+      </p>
+      <p>
+        Balances, drop rates, prices, quests, and shop stock can be rebalanced, reset, or removed
+        as the game is developed. I'll avoid wiping progress without a good reason, but I can't
+        rule it out, especially if a bug caused the balance in the first place.
+      </p>
+
+      <h2>6. Trading</h2>
+      <p>
+        Trades happen between players, and both sides have to confirm before anything moves. Once
+        a trade completes it's final. I don't reverse trades over regret, a misclick, or a deal
+        that turned out lopsided, and I don't mediate disputes between players. Scam trades, side
+        deals involving real money, and trades used to move goods between an alt and a main are
+        all covered by section 4 and can get both accounts wiped.
+      </p>
+
+      <h2>7. Suspension</h2>
+      <p>
+        I can reset a save file, block an account from using the bot, or remove the bot from a
+        server, without warning, if there's cheating, abuse, exploitation, or a real risk to the
+        bot's stability. For an honest mistake, get in touch and I'll listen, though I'm not
+        obliged to reverse a decision.
+      </p>
+
+      <h2>8. Availability and data loss</h2>
+      <p>
+        The bot is provided as is and as available. It goes offline for updates, for host
+        problems, and sometimes because a bug took it down. Progress is stored in local database
+        files, and while I try to keep them intact, hardware fails and backups can be
+        incomplete. Please treat your collection as something fun rather than something
+        guaranteed, and understand that the bot could be discontinued at any point.
+      </p>
+
+      <h2>9. No warranty</h2>
+      <p>
+        To the fullest extent the law allows, the bot comes with no warranties of any kind,
+        express or implied, including merchantability, fitness for a particular purpose, and
+        non-infringement. There is no guarantee it will be uninterrupted, error free, or that
+        game data will always be accurate.
+      </p>
+
+      <h2>10. Limitation of liability</h2>
+      <p>
+        To the fullest extent the law allows, I am not liable for any indirect, incidental, or
+        consequential damages arising out of your use of the bot, including lost progress, lost
+        items, or lost currency. Since the bot is free, any liability that can't be excluded is
+        limited to the amount you have paid to use it, which is nothing.
+      </p>
+
+      <h2>11. Privacy</h2>
+      <p>
+        What the bot reads, stores, and deletes is set out in the
+        <a href="/privacy-policy">Privacy Policy</a>, which forms part of these terms.
+      </p>
+
+      <h2>12. Changes to these terms</h2>
+      <p>
+        These terms can change as the bot changes. The date at the top will be updated when they
+        do, and continuing to use the bot after that counts as accepting the new version.
+      </p>
+
+      <h2>13. Contact</h2>
+      <p>
+        Bug reports, exploit reports, appeals, and questions about these terms:
+        <a href="mailto:wowniceblock@gmail.com">wowniceblock@gmail.com</a>.
+      </p>
+
+      <p style="margin-top: 40px;"><a href="/privacy-policy">Privacy Policy</a></p>
+    </main>
+  </body>
+</html>

@@ -50,7 +50,10 @@ app.get('/api/health', (_req, res) => res.json({ ok: true }));
 // In production, serve the built client. In dev, Vite serves the client and
 // proxies /api + /ws here, so this static mount is harmless.
 const clientDist = path.join(__dirname, '..', 'client', 'dist');
-app.use(express.static(clientDist));
+// `extensions: ['html']` lets the standalone legal pages be served at clean paths
+// (/pokebot-tos, /privacy-policy, /privacy, /terms) instead of falling through to
+// the catch-all below and rendering the game. They are not linked from the game UI.
+app.use(express.static(clientDist, { extensions: ['html'] }));
 app.get('*', (_req, res) => {
   res.sendFile(path.join(clientDist, 'index.html'), (err) => {
     if (err) res.status(404).end();

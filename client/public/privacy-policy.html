@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>pokeBot — Privacy Policy</title>
+    <style>
+      :root { color-scheme: dark; }
+      body {
+        margin: 0;
+        background: #22303f;
+        color: rgba(255, 255, 255, 0.92);
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        line-height: 1.6;
+      }
+      main { max-width: 760px; margin: 0 auto; padding: 48px 20px 80px; }
+      h1 { font-size: 2rem; margin-bottom: 4px; }
+      h2 { font-size: 1.2rem; margin-top: 32px; color: #ffd700; }
+      .updated { color: #9aa7b4; font-size: 0.9rem; margin-top: 0; }
+      a { color: #60a5fa; }
+      code { background: #1a2531; padding: 2px 6px; border-radius: 4px; }
+      table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+      th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.1); vertical-align: top; }
+      th { color: #9aa7b4; font-weight: 600; }
+      ul { padding-left: 20px; }
+      li { margin-bottom: 6px; }
+      .note { color: #9aa7b4; font-size: 0.92rem; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Privacy Policy</h1>
+      <p class="updated">pokeBot (Discord bot) &middot; Last updated: August 12, 2026</p>
+
+      <p>
+        pokeBot is a Pokémon-catching bot for Discord servers, run as a hobby project by one
+        person. This page explains what the bot sees, what it keeps, and what you can do about
+        it. I've tried to keep it specific rather than vague, because "we may collect certain
+        information" tells you nothing.
+      </p>
+      <p>
+        pokeBot is not affiliated with Discord Inc., Nintendo, Game Freak, or The Pokémon
+        Company. Using Discord itself is covered by
+        <a href="https://discord.com/privacy" target="_blank" rel="noopener">Discord's Privacy Policy</a>,
+        not this one.
+      </p>
+
+      <h2>1. What the bot reads</h2>
+      <p>
+        pokeBot runs on Discord's Message Content intent. In plain terms: in servers it has been
+        added to, and in channels where it has permission to read, it receives the text of
+        messages sent by people. It needs this for two reasons and no others:
+      </p>
+      <ul>
+        <li>
+          To recognize commands. Every command starts with a period, like <code>.drop</code>,
+          <code>.party</code>, or <code>.trade</code>. The bot checks whether a message starts with
+          one of those prefixes and ignores it if it doesn't.
+        </li>
+        <li>
+          To catch Pokémon. When a Pokémon is dropped in a channel, the bot compares the next
+          messages against that Pokémon's name to see who typed it first.
+        </li>
+      </ul>
+      <p>
+        Message text is checked in memory the moment it arrives and then dropped. It is not
+        written to a database, not saved to a log file, and not read by me. Messages that aren't
+        commands and don't match an active drop are discarded immediately.
+      </p>
+      <p>
+        The bot does not have Discord's direct message intent, so it cannot read your DMs at all,
+        with me or with anyone else. It also does not read voice channels, attachments, or
+        message history beyond what is posted while it is running.
+      </p>
+
+      <h2>2. What the bot stores</h2>
+      <p>
+        pokeBot keeps a small set of SQLite database files on the machine it runs on. Everything
+        stored about you is tied to your Discord user ID, which is the number Discord assigns to
+        your account. Here is the full list.
+      </p>
+      <table>
+        <tr><th>Stored</th><th>Why</th></tr>
+        <tr><td>Your Discord user ID</td><td>The key for your save file. Nothing else identifies you.</td></tr>
+        <tr><td>Your caught Pokémon, including shiny status, form, and gender</td><td>It's the game.</td></tr>
+        <tr><td>Coins and gold balances</td><td>Shop purchases and rewards.</td></tr>
+        <tr><td>Your item inventory</td><td>So items persist between sessions.</td></tr>
+        <tr><td>Totals: Pokémon caught, currency spent</td><td>Leaderboards, quests, and achievements.</td></tr>
+        <tr><td>Quest and achievement progress, plus the date a quest was completed</td><td>To show progress with <code>.questprogress</code> and stop quests repeating.</td></tr>
+        <tr><td>Buff flags (shiny charm, cooldown reduction, critical drop rate)</td><td>Permanent upgrades bought from the gold shop.</td></tr>
+        <tr><td>A list of server IDs where you have caught something</td><td>Powers the per-server leaderboards.</td></tr>
+        <tr><td>Server ID and allowed channel IDs</td><td>Saved when an admin runs <code>.setChannel</code>, so the bot stays out of channels it wasn't invited into.</td></tr>
+      </table>
+      <p class="note">
+        That's the whole thing. No email addresses, no IP addresses, no phone numbers, no
+        location, no payment details, no message archives, no analytics events.
+      </p>
+
+      <h2>3. What only lives in memory</h2>
+      <p>
+        Some state is held in the bot's memory while it runs and is gone the moment it restarts:
+        drop cooldown timers, whether you asked for a cooldown reminder with <code>.remind</code>,
+        the Pokémon currently active in a channel, in-progress trades, and active repels.
+      </p>
+
+      <h2>4. Usernames and what other players can see</h2>
+      <p>
+        Your username and server nickname are not saved to the database. When a leaderboard is
+        posted, the bot asks Discord for the current username attached to each user ID at that
+        moment and shows it. If Discord doesn't return one, the raw user ID is shown instead.
+      </p>
+      <p>
+        Some commands are deliberately public, and you should know that going in. Anyone in a
+        server with the bot can run <code>.team @you</code> to see your first six Pokémon, or
+        <code>.compare @you</code> to list Pokémon you own that they don't. Your name and totals
+        can appear on global and per-server leaderboards. If you'd rather not appear anywhere,
+        the practical answer is not to play, since a save file is created the first time you
+        catch something.
+      </p>
+
+      <h2>5. Who else gets your data</h2>
+      <p>
+        Nobody. Your data is not sold, rented, shared with advertisers, or handed to any
+        analytics provider. There are no third-party services wired into the bot, no tracking
+        pixels, and no ad network. Pokémon artwork is served from image links stored in the
+        bot's own Pokémon database, so browsing the dex doesn't hand your activity to anyone
+        either.
+      </p>
+      <p>
+        The only outside party involved is Discord, which necessarily carries every message the
+        bot sends and receives.
+      </p>
+
+      <h2>6. Where it's kept and how it's protected</h2>
+      <p>
+        The database files sit on the server that runs the bot. They aren't published, exposed
+        over a web address, or synced to a cloud service. Access is limited to me as the
+        operator. I take reasonable care, but this is a hobby project rather than a bank, and I
+        can't promise a system is beyond compromise. Please don't put anything sensitive into
+        the bot, and remember that it stores game data only.
+      </p>
+
+      <h2>7. How long data is kept</h2>
+      <p>
+        Save files are kept for as long as the bot runs, so your collection is still there when
+        you come back months later. There's no automatic expiry. Removing the bot from a server
+        does not delete anyone's save data, since collections follow the user rather than the
+        server.
+      </p>
+
+      <h2>8. Deleting your data</h2>
+      <p>
+        You can have your save file wiped at any time. Email
+        <a href="mailto:wowniceblock@gmail.com">wowniceblock@gmail.com</a> from any address with
+        your Discord user ID and ask for deletion. Sending the request from Discord itself is
+        fine too. I'll remove your row from the user and quest databases, which deletes your
+        Pokémon, currency, items, buffs, and quest progress permanently.
+      </p>
+      <p>
+        Two honest caveats. First, this is a manual process, so allow a few days rather than
+        expecting it to be instant. Second, deletion can't be undone and Pokémon traded to other
+        players stay with them, since those are now their Pokémon. You can also ask for a copy of
+        what's stored about you, and I'll send back the contents of your row.
+      </p>
+      <p>
+        Server admins can clear the bot's channel settings for their server at any time with
+        <code>.resetChannels</code>.
+      </p>
+
+      <h2>9. Children</h2>
+      <p>
+        pokeBot follows Discord's minimum age requirements and is not intended for children under
+        13, or under the higher minimum age in countries where that applies. If I learn that data
+        belongs to a child below that age, I'll delete it.
+      </p>
+
+      <h2>10. Changes to this policy</h2>
+      <p>
+        If the bot starts collecting something new, this page gets updated and the date at the
+        top changes with it. Meaningful changes will be noted in the support server where
+        practical.
+      </p>
+
+      <h2>11. Contact</h2>
+      <p>
+        Questions, deletion requests, or anything that looks wrong on this page:
+        <a href="mailto:wowniceblock@gmail.com">wowniceblock@gmail.com</a>.
+      </p>
+
+      <p style="margin-top: 40px;"><a href="/pokebot-tos">Terms of Service</a></p>
+    </main>
+  </body>
+</html>
